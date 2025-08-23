@@ -1,0 +1,67 @@
+h1 {
+    text-align: center;
+    color: blue;
+    font-size: 40px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 35px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center the list items horizontally */
+}
+
+li {
+    width: 100%;
+    /* Make li take the full width */
+    max-width: 300px;
+    /* Limit the max width for better design */
+    text-align: center;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+li:hover {
+    background-color: #e0e0e0;
+    /* Change the color on hover */
+    cursor: pointer;
+}
+
+li.active {
+    background-color: #d1c4e9;
+    /* Persistent background color when clicked */
+}
+
+p {
+    text-align: center;
+}
+
+button {
+    margin: 20px auto;
+    display: block;
+    color: #885df1;
+    font-size: 16px;
+    background: transparent;
+    padding: 15px 20px;
+    border-radius: 40px;
+    margin: 30px auto;
+    border: 1px solid #885df1;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    transition: all 150ms ease-in-out;
+}
+
+button:hover {
+    color: #fff;
+    background-color: #7c52ef;
+    cursor: pointer;
+}
