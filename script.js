@@ -1,11 +1,8 @@
 // Function to handle click events on list items
 function handleClick(event) {
-    // Remove 'active' class from all li elements
     document.querySelectorAll('li').forEach(function(li) {
         li.classList.remove('active');
     });
-
-    // Add 'active' class to the clicked li element
     event.currentTarget.classList.add('active');
 }
 
@@ -16,14 +13,11 @@ document.querySelectorAll('li').forEach(function(li) {
 
 // Function to change the city and temperature
 function changeCity() {
-    let city = prompt("What city do you live in?");
+    let city = document.getElementById("cityInput").value || "South Africa";
     let temperature = prompt("What temperature is it?");
     let heading = document.querySelector("h1");
-    if (temperature < 0) {
-        heading.innerHTML = "☹️<br />Currently " + temperature + "°C in " + city;
-    } else {
-        heading.innerHTML = "😄<br />Currently " + temperature + "°C in " + city;
-    }
+    let emoji = temperature < 0 ? "❄️" : "☀️";
+    heading.innerHTML = `${emoji}<br />Currently ${temperature}°C in ${city}`;
 }
 
 // Add click event listener to the button
