@@ -1,4 +1,5 @@
 import FormattedDate from "./FormattedDate";
+import Forecast from "./components/Forecast";
 
 function WeatherCard({ weather }) {
   const date = new Date(weather.dt * 1000); // OpenWeather gives Unix timestamp in seconds

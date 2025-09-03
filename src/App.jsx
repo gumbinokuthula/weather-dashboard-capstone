@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 import ErrorMessage from "./components/ErrorMessage";
+import Forecast from "./components/Forecast";
 
 function App() {
   const [city, setCity] = useState("London");
