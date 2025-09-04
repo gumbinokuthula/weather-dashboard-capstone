@@ -1,8 +1,7 @@
 import FormattedDate from "./FormattedDate";
-import Forecast from "./components/Forecast";
 
 function WeatherCard({ weather }) {
-  const date = new Date(weather.dt * 1000); // OpenWeather gives Unix timestamp in seconds
+  const date = new Date(weather.dt * 1000); // convert timestamp to JS date
 
   return (
     <div className="bg-white text-black rounded-xl shadow-lg p-6 w-80 text-center">
