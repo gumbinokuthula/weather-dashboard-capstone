@@ -1,23 +1,27 @@
+import React from "react";
+import "../Weather.css";
 import FormattedDate from "./FormattedDate";
 
 function WeatherCard({ weather }) {
-  const date = new Date(weather.dt * 1000); // convert timestamp to JS date
+  if (!weather) return null;
+
+  const date = new Date(weather.dt * 1000);
 
   return (
-    <div className="bg-white text-black rounded-xl shadow-lg p-6 w-80 text-center">
-      <h2 className="text-2xl font-semibold">{weather.name}</h2>
-      <p className="text-sm text-gray-600 mb-2">
-        <FormattedDate date={date} />
-      </p>
-      <p className="text-lg capitalize">{weather.weather[0].description}</p>
-      <img
-        src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-        alt={weather.weather[0].description}
-        className="mx-auto"
-      />
-      <p className="text-3xl font-bold">{Math.round(weather.main.temp)}°C</p>
-      <p>Humidity: {weather.main.humidity}%</p>
-      <p>Wind: {Math.round(weather.wind.speed)} km/h</p>
+    <div className="Weather">
+      <h1>{weather.name}</h1>
+      <ul>
+        <li>
+          📅 <FormattedDate date={date} />
+        </li>
+        <li>🌤️ {weather.weather[0].description}</li>
+        <li>
+          🌡️ <span className="temperature">{Math.round(weather.main.temp)}</span>
+          <span className="unit">°C</span>
+        </li>
+        <li>💧 Humidity: {weather.main.humidity}%</li>
+        <li>💨 Wind: {Math.round(weather.wind.speed)} km/h</li>
+      </ul>
     </div>
   );
 }

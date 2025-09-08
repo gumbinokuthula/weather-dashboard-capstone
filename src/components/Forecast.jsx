@@ -1,69 +1,29 @@
-import { useEffect, useState } from "react";
+import React from "react";
 
-function Forecast({ city }) {
-  const [forecast, setForecast] = useState([]);
-  const [error, setError] = useState("");
+function Forecast({ forecast }) {
+  if (!forecast || !forecast.list) return null;
 
-  useEffect(() => {
-    if (!city) return;
-
-    const fetchForecast = async () => {
-      try {
-        setError("");
-        const res = await fetch(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${
-            import.meta.env.VITE_WEATHER_API_KEY
-          }&units=metric`
-        );
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch forecast");
-        }
-
-        const data = await res.json();
-
-        // Extract 1 forecast per day (at 12:00)
-        const dailyData = data.list.filter((item) =>
-          item.dt_txt.includes("12:00:00")
-        );
-
-        setForecast(dailyData.slice(0, 5)); // Only 5 days
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-
-    fetchForecast();
-  }, [city]);
-
-  if (error) return <p className="text-red-500">{error}</p>;
+  // Pick one forecast every 8 steps (3h * 8 = 24h → daily)
+  const daily = forecast.list.filter((item, index) => index % 8 === 0);
 
   return (
-    <div className="mt-8">
-      <h3 className="text-xl font-semibold mb-4 text-center">
-        5-Day Forecast
-      </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
-        {forecast.map((day) => {
+    <div className="Forecast">
+      <h2>5-Day Forecast</h2>
+      <div className="forecast-grid">
+        {daily.map((day, index) => {
           const date = new Date(day.dt * 1000);
-          const options = { weekday: "long" };
-          const dayName = date.toLocaleDateString("en-US", options);
+          const options = { weekday: "short" };
+          const dayName = new Intl.DateTimeFormat("en-US", options).format(date);
 
           return (
-            <div
-              key={day.dt}
-              className="bg-white text-black rounded-xl shadow-md p-4 text-center"
-            >
-              <p className="font-medium">{dayName}</p>
+            <div key={index} className="forecast-card">
+              <h3>{dayName}</h3>
               <img
                 src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
                 alt={day.weather[0].description}
-                className="mx-auto"
               />
-              <p className="text-lg font-bold">
-                {Math.round(day.main.temp)}°C
-              </p>
-              <p className="text-sm capitalize">{day.weather[0].description}</p>
+              <p>🌡️ {Math.round(day.main.temp)}°C</p>
+              <p>🌤️ {day.weather[0].main}</p>
             </div>
           );
         })}
