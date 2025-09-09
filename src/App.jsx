@@ -1,48 +1,81 @@
-import { useState } from "react";
-import SearchBar from "./components/SearchBar";
+import React, { useState } from "react";
 import WeatherCard from "./components/WeatherCard";
-import Forecast from "./components/Forecast";
-import ErrorMessage from "./components/ErrorMessage";
+import "./Weather.css";
 
 function App() {
+  const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState([]);
   const [error, setError] = useState("");
 
-  const fetchWeather = async (city) => {
+  const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+
+  const fetchWeather = async () => {
     try {
       setError("");
+      // Current weather
       const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${
-          import.meta.env.VITE_WEATHER_API_KEY
-        }&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
       );
-
-      if (!res.ok) {
-        throw new Error("City not found. Please try again.");
-      }
-
+      if (!res.ok) throw new Error("City not found");
       const data = await res.json();
       setWeather(data);
+
+      // 5-day forecast
+      const forecastRes = await fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`
+      );
+      const forecastData = await forecastRes.json();
+
+      const daily = forecastData.list.filter((reading) =>
+        reading.dt_txt.includes("12:00:00")
+      );
+      const formatted = daily.map((d) => ({
+        day: new Date(d.dt * 1000).toLocaleDateString("en-US", {
+          weekday: "short",
+        }),
+        icon: getWeatherEmoji(d.weather[0].main),
+        max: Math.round(d.main.temp_max),
+        min: Math.round(d.main.temp_min),
+      }));
+      setForecast(formatted);
     } catch (err) {
       setError(err.message);
-      setWeather(null);
+    }
+  };
+
+  const getWeatherEmoji = (condition) => {
+    switch (condition) {
+      case "Clear":
+        return "☀️";
+      case "Clouds":
+        return "☁️";
+      case "Rain":
+        return "🌧️";
+      case "Snow":
+        return "❄️";
+      case "Thunderstorm":
+        return "⛈️";
+      default:
+        return "🌡️";
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-blue-400 via-indigo-500 to-purple-600 text-white p-6">
-      <h1 className="text-4xl font-bold mb-6">Weather Dashboard</h1>
+    <div className="app">
+      <h1 className="title">Weather Dashboard</h1>
+      <div className="search">
+        <input
+          type="text"
+          placeholder="Enter city"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+        />
+        <button onClick={fetchWeather}>Search</button>
+      </div>
 
-      <SearchBar onSearch={fetchWeather} />
-
-      {error && <ErrorMessage message={error} />}
-
-      {weather && (
-        <>
-          <WeatherCard weather={weather} />
-          <Forecast city={weather.name} />
-        </>
-      )}
+      {error && <p className="error">{error}</p>}
+      {weather && <WeatherCard weather={weather} forecast={forecast} />}
     </div>
   );
 }
