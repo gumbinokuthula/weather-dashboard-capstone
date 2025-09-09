@@ -1,12 +1,29 @@
-# React + Vite
+# Weather Dashboard 🌤️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This is my Capstone Project for frontend development.  
+The Weather Dashboard is a React application that allows users to search for any city and view the **current weather** and a **5-day forecast**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Search weather by city 🌍
+- Shows temperature, humidity, wind speed, and weather description 🌡️
+- 5-day forecast in small cards with weather emojis ⛅
+- Responsive design (works on desktop and mobile) 📱💻
+- Error handling for invalid city names ❌
+- Styled with CSS and Tailwind (basic setup)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+- React (Vite)
+- Tailwind CSS + custom CSS
+- OpenWeather API
+
+## Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/gumbinokuthula/weather-dashboard-capstone.git
+   cd weather-dashboard-capstone
+   ```
